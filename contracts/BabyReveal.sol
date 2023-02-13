@@ -3,9 +3,14 @@ pragma solidity ^0.8.7;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-contract BabyReveal is ERC20 {
+error NotEnoughTokens();
 
-    uint256 public immutable costToReveal;
+contract BabyReveal is ERC20 {
+    event Reveal(
+        uint256 indexed tokenId
+    );
+
+    uint256 internal immutable costToReveal;
 
     constructor(uint256 initialSupply, uint256 _costToReveal) ERC20("BabyReveal", "BABY") {
         _mint(msg.sender, initialSupply);
@@ -17,7 +22,11 @@ contract BabyReveal is ERC20 {
      * @param tokenId Identifier of the token to reveal
      */
     function revealBaby(uint256 tokenId) external {
-        require(balanceOf(msg.sender) >= costToReveal, "Not enough tokens");
+        if (balanceOf(msg.sender) < costToReveal) {
+            revert NotEnoughTokens();
+        }
+
         _burn(msg.sender, costToReveal);
+        emit Augment(traitId, tokenId, token);
     }
 }
