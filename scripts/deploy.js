@@ -13,7 +13,7 @@ async function main() {
   const etherscanApiKeyExists = process.env.ETHERSCAN_API_KEY 
   if (networkIsGoerli && etherscanApiKeyExists) {
     await babyReveal.deployTransaction.wait(6)
-    await verify(simpleStorage.address, args)
+    await verify(babyReveal.address, args)
   }
 }
 

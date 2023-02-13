@@ -1,7 +1,7 @@
 const { ethers } = require('hardhat')
 const { assert, expect } = require('chai')
 
-describe('SimpleStorage', function () {
+describe('BabyReveal', function () {
   let accounts
   let ERC20Factory
   let erc20
