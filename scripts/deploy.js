@@ -1,25 +1,20 @@
 const { ethers, run, network } = require('hardhat')
 
 async function main() {
-  const SimpleStorageFactory = await ethers.getContractFactory('SimpleStorage')
+  const args = [1000000, 10]
+
+  const BabyRevealFactory = await ethers.getContractFactory('BabyReveal')
   console.log('Deploying contract...')
-  const simpleStorage = await SimpleStorageFactory.deploy()
-  await simpleStorage.deployed()
-  console.log(`Contract deployed to address: ${simpleStorage.address}`)
+  const babyReveal = await BabyRevealFactory.deploy(...args)
+  await babyReveal.deployed()
+  console.log(`Contract deployed to address: ${babyReveal.address}`)
 
   const networkIsGoerli = network.config.chainId === 5
   const etherscanApiKeyExists = process.env.ETHERSCAN_API_KEY 
   if (networkIsGoerli && etherscanApiKeyExists) {
-    await simpleStorage.deployTransaction.wait(6)
-    await verify(simpleStorage.address, [])
+    await babyReveal.deployTransaction.wait(6)
+    await verify(simpleStorage.address, args)
   }
-
-  const currentValue = await simpleStorage.retrieve()
-  console.log(`Current value: ${currentValue}`)
-  const transactionResponse = await simpleStorage.store(7)
-  await transactionResponse.wait(1)
-  const newValue = await simpleStorage.retrieve()
-  console.log(`New value: ${newValue}`)
 }
 
 async function verify(contractAddress, args) {
