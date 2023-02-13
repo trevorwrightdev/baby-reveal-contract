@@ -2,6 +2,7 @@
 pragma solidity ^0.8.7;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "hardhat/console.sol";
 
 error NotEnoughTokens();
 
@@ -10,7 +11,7 @@ contract BabyReveal is ERC20 {
         uint256 indexed tokenId
     );
 
-    uint256 internal immutable costToReveal;
+    uint256 public immutable costToReveal;
 
     constructor(uint256 initialSupply, uint256 _costToReveal) ERC20("BabyReveal", "BABY") {
         _mint(msg.sender, initialSupply);
@@ -27,6 +28,6 @@ contract BabyReveal is ERC20 {
         }
 
         _burn(msg.sender, costToReveal);
-        emit Augment(traitId, tokenId, token);
+        emit Reveal(tokenId);
     }
 }
